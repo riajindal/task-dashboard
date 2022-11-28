@@ -1,3 +1,13 @@
+#Task Dashboard
+
+### `team members`
+Ria Shah
+Atharva Dalvi
+Vansh Pandav
+
+### `About`
+This project has been created using MERN Stack to implement a task dashboard. In this web app, a user can add projects and related tasks. CRUD operations can only be performed by users with specific roles. Along with an easy-to-use UI, we have implemented functionality such as Authentication and Access Control.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
