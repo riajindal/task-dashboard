@@ -21,6 +21,7 @@ function TaskColumn(props) {
     });
     
     function createTask(){
+        console.log("button being clicked");
         setIsOpen(true);
     }
 
@@ -60,9 +61,8 @@ function TaskColumn(props) {
     <div className='flex'>
         <h2>{props.columnName}</h2>
         <span className='bg-slate-100 rounded-lg px-2 mx-2 text-black'>{tasks.length}</span>
-        <button className='ml-auto text-white w-6 h-6'>
-            <PlusSmallIcon onClick={createTask} />
-            {isOpen && <div class="h-100 w-full absolute left-10 top-4 text-black flex items-center justify-center bg-teal-lightest">
+        <PlusSmallIcon className='text-slate-900 cursor-pointer ml-auto w-6 h-6' onClick={createTask}/>
+        {isOpen && <div class="h-100 w-full absolute left-10 top-4 text-black flex items-center justify-center bg-teal-lightest">
         <div class="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
             <div class="mb-4">
                 <h1 class="text-grey-darkest items-start">Add Task</h1>
@@ -75,7 +75,6 @@ function TaskColumn(props) {
             </div>
         </div>
     </div>}
-        </button>
     </div>
     <div>
         {Tasks.filter(task => task.status === props.columnName).map((task, key) => {
