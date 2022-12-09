@@ -10,10 +10,11 @@ function SignUp() {
 
   const submitUser = async () => {
     const myData = {
-      name: contact.fName, 
+      name: contact.name, 
       email: contact.email, 
-      password: "genius2424", 
-      passwordConfirm: "genius2424"
+      password: contact.password, 
+      passwordConfirm: contact.passwordConfirm,
+      role: contact.role
     };
 
     const result = await fetch('/api/v1/users/signup', {
@@ -31,40 +32,26 @@ function SignUp() {
   }
 
   const [contact, setContact] = useState({
-    fName: "",
-    lName: "",
-    email: ""
+    name: "",
+    email: "",
+    password: "", 
+    passwordConfirm: "",
   });
 
   function handleChange(event) {
     const { name, value } = event.target;
 
     setContact(prevValue => {
-      if (name === "fName") {
-        return {
-          fName: value,
-          lName: prevValue.lName,
-          email: prevValue.email
-        };
-      } else if (name === "lName") {
-        return {
-          fName: prevValue.fName,
-          lName: value,
-          email: prevValue.email
-        };
-      } else if (name === "email") {
-        return {
-          fName: prevValue.fName,
-          lName: prevValue.lName,
-          email: value
-        };
-      }
+      return {
+        ...prevValue,
+        [name]: value
+      };
     });
   }
 
   function handleClick(event) {
     // event.preventDefault();
-    console.log(contact.fName, contact.email);
+    console.log(contact.name, contact.email);
     submitUser();
   }
 
@@ -76,21 +63,33 @@ function SignUp() {
       <form>
         <input
           onChange={handleChange}
-          value={contact.fName}
-          name="fName"
-          placeholder="First Name"
-        />
-        <input
-          onChange={handleChange}
-          value={contact.lName}
-          name="lName"
-          placeholder="Last Name"
+          value={contact.name}
+          name="name"
+          placeholder="Enter Name"
         />
         <input
           onChange={handleChange}
           value={contact.email}
           name="email"
-          placeholder="Email"
+          placeholder="Enter Email"
+        />
+        <input
+          onChange={handleChange}
+          value={contact.password}
+          name="password"
+          placeholder="Enter Password"
+        />
+        <input
+          onChange={handleChange}
+          value={contact.passwordConfirm}
+          name="passwordConfirm"
+          placeholder="Confirm Password"
+        />
+        <input
+          onChange={handleChange}
+          value={contact.role}
+          name="role"
+          placeholder="Enter Role"
         />
         <Link to="/projects"><button onClick={handleClick}>Sign Up</button></Link>
       </form>

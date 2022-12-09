@@ -13,7 +13,7 @@ function Sidebar() {
     const Menus = [
         { title: "Add Project", src: <FolderPlusIcon className='h-6 w-6' />, href:"/projects" },
         { title: "Add Task", src: <CheckCircleIcon className='h-6 w-6' />, href:"/tasks" },
-        { title: "Log Out", src: <ArrowRightOnRectangleIcon className='h-6 w-6' />, gap: true },
+        { title: "Log Out", src: <ArrowRightOnRectangleIcon className='h-6 w-6' />, gap: true, href:"/" },
     ];
 
     return <div className={` ${open ? "w-56" : "w-24"} p-5 pt-8 h-screen relative bg-slate-800`}>

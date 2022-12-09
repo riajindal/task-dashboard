@@ -11,7 +11,7 @@ function App() {
   return <div>
   <Router>
     <Routes>
-      <Route exact path="/" element={<SignUp />} />
+      <Route exact path="/" element={<LoginForm />} />
       <Route exact path="/login" element={<LoginForm />} />
       <Route exact path="/projects" element={<div className='flex'>
           <Sidebar />

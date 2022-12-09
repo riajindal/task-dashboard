@@ -1,16 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {PlusSmallIcon} from '@heroicons/react/24/solid';
 
 
 function Projects(){
 
+  const [allProjects, setAllProjects] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/v1/projects/top-5-cheap')
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setAllProjects(data.data.projects);
+    })
+  }, []);
+
+  const submitProject = async () => {
+    const myData = {
+      name: currProject.title, 
+    };
+
+    const result = await fetch('/api/v1/projects/', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify(myData)
+    })
+
+    const resultInJSON = await result.json();
+    console.log(resultInJSON);
+  };
+
     const [currProject, setCurrProject] = useState({
         title: "",
       });
-
-    const [selectedProject, setSelectedProject] = useState({
-      title: "",
-    });
 
     const [projectModal, setProjectModal] = useState(false);
 
@@ -23,29 +48,6 @@ function Projects(){
       setProjectModal(false);
     }
 
-    const tasks = [
-        {title: "Coding", status: "unchecked"},
-        {title: "Designing", status: "unchecked"},
-        {title: "Eating", status: "unchecked"},
-        {title: "Sleeping", status: "unchecked"},
-      ];
-    
-      // const projects = [
-      //   {title: "Project title"},
-      //   {title: "Project title"},
-      //   {title: "Project title"},
-      //   {title: "Project title"},
-      //   {title: "Project title"},
-      //   {title: "Project title"},
-      // ];
-        
-      const [projects, setProjects] = useState([]);
-
-      function selectProject(project){
-        console.log(project);
-        setSelectedProject(project);
-      }
-
       function handleChange(event){
         const {name, value} = event.target;
         setCurrProject((prevValue) => {
@@ -57,13 +59,9 @@ function Projects(){
       }
 
       function addProject(event){
-        setProjects((prevValue) => {
-          return [
-            ...prevValue, 
-            currProject
-          ];
-        });
+        submitProject();
         setProjectModal(false);
+        console.log(allProjects);
         event.preventDefault();
       }
 
@@ -88,8 +86,8 @@ function Projects(){
 
     <h3 className='text-4xl font-semibold my-5 mx-3 text-white'>Welcome back, Ria</h3>
     <div className=" text-black">
-    <div className="grid grid-cols-3 items-start">
-   <div className="bg-fuchsia-300 rounded-lg m-2 p-5">
+    <div className="">
+   {/* <div className="bg-fuchsia-300 rounded-lg m-2 p-5">
       <h3 className="text-2xl font-semibold p-3">Today's Tasks</h3>
       <ul>
       {tasks.map((task, index) => {
@@ -101,31 +99,31 @@ function Projects(){
         </li>
       })}
       </ul>
-    </div>
+    </div> */}
     <div className="bg-orange-200 rounded-lg m-2 p-5 break-inside-avoid col-span-2 row-span-2">
       <div className='flex items-center'>
       <h3 className="text-2xl font-semibold p-3">Projects</h3>
       <PlusSmallIcon className='text-slate-900 cursor-pointer w-6 h-6' onClick={createTask}/>
       </div>
-      <div className="grid grid-cols-3">
-       {projects.map((project, index) => {
-        console.log(projects);
-        return <div key={index} value={project} onClick={() => selectProject(project)} className="card w-48 relative m-4 p-6 rounded-lg bg-orange-100">
+      <div className="grid grid-cols-4">
+       {allProjects && allProjects.map((project, index) => {
+        console.log(allProjects);
+        return <div key={index} value={project} className="card w-48 relative m-4 p-6 rounded-lg bg-orange-100">
           <div className="icon-box w-10 h-10 absolute -top-4 bg-red-400 flex rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 m-auto">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
           </svg>
 
           </div>
-          <h4 className="my-3 font-semibold text-xl">{project.title}</h4>
+          <h4 className="my-3 font-semibold text-xl">{project.name}</h4>
           <p className="mt-2 mb-1 text-gray-500 font-light text-xs">Progress</p>
           <h2 className="text-xl font-bold">84%</h2>
         </div>
        })} 
       </div>
     </div>
-    <div className="bg-amber-300 rounded-lg m-2 p-5">
-      <h3 className="text-2xl font-semibold p-3">{selectedProject.title !== ""  ? selectedProject.title : "Select a project"}</h3>
+    {/* <div className="bg-amber-300 rounded-lg m-2 p-5">
+      <h3 className="text-2xl font-semibold p-3">{selectedProject.title !== ""  ? selectedProject.name : "Select a project"}</h3>
       <ul>
       {tasks.map((task, index) => {
         return <li key={index} className="flex items-center">
@@ -136,7 +134,7 @@ function Projects(){
         </li>
       })}
       </ul>
-    </div>
+    </div> */}
    </div> 
     </div>
   </div>
